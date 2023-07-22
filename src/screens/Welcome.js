@@ -16,7 +16,12 @@ export default function Welcome() {
           alignItems: "center",
         }}
       >
-        <Text>Finance Management</Text>
+        <Text style={{ fontSize: 15, fontWeight: "bold", marginBottom: 10 }}>
+          Welcome to,
+        </Text>
+        <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 20 }}>
+          Finance Management App!
+        </Text>
         <TouchableOpacity
           style={{
             backgroundColor: "red",
@@ -24,7 +29,7 @@ export default function Welcome() {
             paddingVertical: 10,
           }}
         >
-          <Text>Get Started</Text>
+          <Text style={{ color: "black" }}>Get Started</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
