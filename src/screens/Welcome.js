@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
-export default function Welcome() {
+export default function Welcome({ navigation }) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar backgroundColor="skyblue" />
@@ -26,6 +26,7 @@ export default function Welcome() {
           Finance Management App!
         </Text>
         <TouchableOpacity
+          onPress={() => navigation.navigate("Home")}
           style={{
             backgroundColor: "black",
             paddingHorizontal: 20,
