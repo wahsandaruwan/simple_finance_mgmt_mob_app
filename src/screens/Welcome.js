@@ -1,4 +1,5 @@
 // ----------Inbuilt components and modules----------
+import { useEffect } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -6,12 +7,16 @@ import {
   View,
   TouchableOpacity,
   StatusBar,
+  Alert,
 } from "react-native";
 
 // ---------Third-party components & modules---------
 import * as Icons from "react-native-heroicons/solid";
 
 export default function Welcome({ navigation }) {
+  useEffect(() => {
+    Alert.alert("Outdated SDK", "Please update the SDK!");
+  }, []);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar backgroundColor="skyblue" />
