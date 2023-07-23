@@ -1,10 +1,10 @@
 // ----------Custom components and modules----------
-import { Welcome } from "./src/screens";
+import { Welcome, FinanceSetup } from "./src/screens";
 
 export default function App() {
   return (
     <>
-      <Welcome />
+      <FinanceSetup />
     </>
   );
 }

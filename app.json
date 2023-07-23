@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expense_mgmt_mobile_app",
-    "slug": "expense_mgmt_mobile_app",
+    "name": "finance_mgmt_mobile_app",
+    "slug": "finance_mgmt_mobile_app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },

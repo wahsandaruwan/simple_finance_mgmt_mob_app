@@ -1,5 +1,6 @@
 // ----------Imports----------
 import Welcome from "./Welcome";
+import FinanceSetup from "./FinanceSetup";
 
 // ----------Exports----------
-module.exports = { Welcome };
+module.exports = { Welcome, FinanceSetup };
