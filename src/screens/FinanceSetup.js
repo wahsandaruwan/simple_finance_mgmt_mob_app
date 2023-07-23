@@ -47,7 +47,14 @@ export default function FinanceSetup() {
           padding: 20,
         }}
       >
-        <Text style={{ fontSize: 20, fontWeight: "bold", marginVertical: 20 }}>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            marginTop: 10,
+            marginBottom: 20,
+          }}
+        >
           Setup Finance
         </Text>
         <DropDown />

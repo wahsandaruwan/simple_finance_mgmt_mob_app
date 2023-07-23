@@ -37,7 +37,7 @@ export default function Home({ navigation }) {
           <TextInput
             placeholder="Search Finance..."
             style={{
-              width: "82%",
+              width: "65%",
               height: "100%",
               paddingVertical: 10,
               paddingHorizontal: 20,
@@ -54,15 +54,15 @@ export default function Home({ navigation }) {
           >
             <Icons.PlusCircleIcon size="40" color="white" />
           </TouchableOpacity>
-          {/* <TouchableOpacity
+          <TouchableOpacity
             style={{
               backgroundColor: "black",
               padding: 5,
             }}
-            onPress={() => navigation.navigate("FinanceSetup")}
+            onPress={() => navigation.navigate("About")}
           >
-            <Icons.ChartBarSquareIcon size="40" color="white" />
-          </TouchableOpacity> */}
+            <Icons.CheckBadgeIcon size="40" color="white" />
+          </TouchableOpacity>
         </View>
         <View
           style={{
