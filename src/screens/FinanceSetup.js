@@ -8,6 +8,7 @@ import {
   StatusBar,
   TextInput,
 } from "react-native";
+import { DropDown } from "../components";
 export default function FinanceSetup() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -21,8 +22,20 @@ export default function FinanceSetup() {
         }}
       >
         <Text style={{ fontSize: 20, fontWeight: "bold", marginVertical: 20 }}>
-          Add Finance
+          Setup Finance
         </Text>
+        <DropDown />
+        <TextInput
+          placeholder="Enter Name..."
+          style={{
+            width: "100%",
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            backgroundColor: "skyblue",
+            color: "black",
+            marginBottom: 10,
+          }}
+        />
         <TextInput
           placeholder="Enter Amount..."
           style={{
@@ -33,13 +46,14 @@ export default function FinanceSetup() {
             color: "black",
             marginBottom: 10,
           }}
+          keyboardType="numeric"
         />
         <TouchableOpacity
           style={{
             width: "100%",
             backgroundColor: "black",
             paddingHorizontal: 20,
-            paddingVertical: 10,
+            paddingVertical: 15,
           }}
         >
           <Text style={{ textAlign: "center", color: "white" }}>
