@@ -1,4 +1,4 @@
-// ----------Inbuilt components and modules----------\
+// ----------Inbuilt components and modules----------
 import {
   StyleSheet,
   SafeAreaView,
@@ -8,7 +8,9 @@ import {
   StatusBar,
   TextInput,
 } from "react-native";
+// ----------Custom components and modules----------
 import { DropDown } from "../components";
+
 export default function FinanceSetup() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -57,7 +59,7 @@ export default function FinanceSetup() {
           }}
         >
           <Text style={{ textAlign: "center", color: "white" }}>
-            Add Finance
+            Save Finance
           </Text>
         </TouchableOpacity>
       </View>
