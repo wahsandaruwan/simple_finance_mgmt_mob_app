@@ -7,6 +7,10 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
+
+// ---------Third-party components & modules---------
+import * as Icons from "react-native-heroicons/solid";
+
 export default function Welcome({ navigation }) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -19,6 +23,7 @@ export default function Welcome({ navigation }) {
           padding: 20,
         }}
       >
+        <Icons.BanknotesIcon size="70" color="black" />
         <Text style={{ fontSize: 15, fontWeight: "bold", marginBottom: 10 }}>
           Welcome to,
         </Text>
