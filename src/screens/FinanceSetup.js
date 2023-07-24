@@ -8,23 +8,39 @@ import {
   TouchableOpacity,
   StatusBar,
   TextInput,
+  Alert,
 } from "react-native";
 
 // ----------Third-party components and modules----------
 import DateTimePicker from "@react-native-community/datetimepicker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // ----------Custom components and modules----------
 import { DropDown } from "../components";
 
 export default function FinanceSetup() {
+  // All states
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
+  const [isReset, setIsReset] = useState(false);
+  const [data, setData] = useState({
+    financeId: Date.now(),
+    financeType: null,
+    financeName: "",
+    financeAmount: "",
+    processedDate: date.toISOString().split("T")[0],
+  });
+  console.log(data);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(false);
     setDate(currentDate);
+    setData((prev) => ({
+      ...prev,
+      processedDate: currentDate.toISOString().split("T")[0],
+    }));
   };
 
   const showMode = (currentMode) => {
@@ -34,6 +50,45 @@ export default function FinanceSetup() {
 
   const showDatepicker = () => {
     showMode("date");
+  };
+
+  // Function to handle save finance
+  const handleFinanceSave = async () => {
+    try {
+      // Validation
+      if (data.financeType === null) {
+        Alert.alert("Error", "Enter finance type!");
+        return;
+      } else if (data.financeName === "") {
+        Alert.alert("Error", "Enter finance name!");
+        return;
+      } else if (data.financeAmount === "") {
+        Alert.alert("Error", "Enter finance amount!");
+        return;
+      }
+
+      const availableData = await AsyncStorage.getItem("finances");
+      console.log(availableData);
+      let finances = [];
+      if (availableData) {
+        finances = JSON.parse(availableData);
+      }
+      finances.push(data);
+      await AsyncStorage.setItem("finances", JSON.stringify(finances));
+
+      setDate(new Date());
+      setData({
+        financeId: Date.now(),
+        financeType: null,
+        financeName: "",
+        financeAmount: "",
+        processedDate: date.toISOString().split("T")[0],
+      });
+      setIsReset(true);
+      Alert.alert("Success", "Successfully added a new finance!");
+    } catch (error) {
+      console.error("Error adding finance", error);
+    }
   };
 
   return (
@@ -57,30 +112,13 @@ export default function FinanceSetup() {
         >
           Setup Finance
         </Text>
-        <DropDown />
-        <TextInput
-          placeholder="Enter Name..."
-          style={{
-            width: "100%",
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-            backgroundColor: "skyblue",
-            color: "black",
-            marginBottom: 10,
-          }}
+        <DropDown
+          selectType={(itemValue) =>
+            setData((prev) => ({ ...prev, financeType: itemValue }))
+          }
+          reset={isReset}
         />
-        <TextInput
-          placeholder="Enter Amount..."
-          style={{
-            width: "100%",
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-            backgroundColor: "skyblue",
-            color: "black",
-            marginBottom: 10,
-          }}
-          keyboardType="numeric"
-        />
+
         <TouchableOpacity
           style={{
             width: "100%",
@@ -91,7 +129,7 @@ export default function FinanceSetup() {
           }}
           onPress={showDatepicker}
         >
-          <Text style={{ textAlign: "center", color: "black" }}>
+          <Text style={{ textAlign: "left", color: "black" }}>
             {`Select Date (${date.toISOString().split("T")[0]})`}
           </Text>
         </TouchableOpacity>
@@ -104,6 +142,37 @@ export default function FinanceSetup() {
             onChange={onChange}
           />
         )}
+        <TextInput
+          placeholder="Enter Name..."
+          style={{
+            width: "100%",
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            backgroundColor: "skyblue",
+            color: "black",
+            marginBottom: 10,
+          }}
+          onChangeText={(txt) =>
+            setData((prev) => ({ ...prev, financeName: txt }))
+          }
+          value={data.financeName}
+        />
+        <TextInput
+          placeholder="Enter Amount..."
+          style={{
+            width: "100%",
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            backgroundColor: "skyblue",
+            color: "black",
+            marginBottom: 10,
+          }}
+          keyboardType="numeric"
+          onChangeText={(txt) =>
+            setData((prev) => ({ ...prev, financeAmount: parseFloat(txt) }))
+          }
+          value={data.financeAmount.toString()}
+        />
         <TouchableOpacity
           style={{
             width: "100%",
@@ -111,6 +180,7 @@ export default function FinanceSetup() {
             paddingHorizontal: 20,
             paddingVertical: 15,
           }}
+          onPress={() => handleFinanceSave()}
         >
           <Text style={{ textAlign: "center", color: "white" }}>
             Save Finance
