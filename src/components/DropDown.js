@@ -25,10 +25,10 @@ export default function DropDown({ selectType, reset }) {
         }}
       >
         <Picker.Item label="Select a Type..." value={null} />
-        <Picker.Item label="Past Income" value="pi" />
-        <Picker.Item label="Future Income" value="fi" />
-        <Picker.Item label="Past Expense" value="pe" />
-        <Picker.Item label="Future Expense" value="fe" />
+        <Picker.Item label="Past Income" value="Past Income" />
+        <Picker.Item label="Future Income" value="Future Income" />
+        <Picker.Item label="Past Expense" value="Past Expense" />
+        <Picker.Item label="Future Expense" value="Future Expense" />
       </Picker>
     </View>
   );

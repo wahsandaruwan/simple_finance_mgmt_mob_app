@@ -31,7 +31,6 @@ export default function FinanceSetup() {
     financeAmount: "",
     processedDate: date.toISOString().split("T")[0],
   });
-  console.log(data);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -68,7 +67,6 @@ export default function FinanceSetup() {
       }
 
       const availableData = await AsyncStorage.getItem("finances");
-      console.log(availableData);
       let finances = [];
       if (availableData) {
         finances = JSON.parse(availableData);
@@ -86,6 +84,7 @@ export default function FinanceSetup() {
       });
       setIsReset(true);
       Alert.alert("Success", "Successfully added a new finance!");
+      // await AsyncStorage.removeItem("finances");
     } catch (error) {
       console.error("Error adding finance", error);
     }

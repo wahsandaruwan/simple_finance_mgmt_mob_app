@@ -1,4 +1,5 @@
 // ----------Inbuilt components and modules----------
+import { useState, useEffect } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -12,11 +13,44 @@ import {
 
 // ---------Third-party components & modules---------
 import * as Icons from "react-native-heroicons/solid";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
+
+// ---------Custom components & modules---------
+import { FinanceCard } from "../components";
 
 export default function Home({ navigation }) {
+  // Focus
+  const isFocused = useIsFocused();
+
+  const [finances, setFinances] = useState([]);
+  console.log(finances);
+
+  useEffect(() => {
+    handleFinancesFetch();
+  }, []);
+
+  useEffect(() => {
+    if (isFocused) {
+      handleFinancesFetch();
+    }
+  }, [isFocused]);
+
+  const handleFinancesFetch = async () => {
+    try {
+      const availableData = await AsyncStorage.getItem("finances");
+      if (availableData) {
+        setFinances(JSON.parse(availableData));
+      }
+    } catch (error) {
+      console.error("Error fetching finances", error);
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar backgroundColor="skyblue" />
+
       <View
         style={{
           flex: 1,
@@ -96,256 +130,19 @@ export default function Home({ navigation }) {
           showsVerticalScrollIndicator={false}
           style={{ width: "100%", backgroundColor: "white" }}
         >
-          <View
-            style={{
-              padding: 15,
-              backgroundColor: "skyblue",
-              marginVertical: 5,
-              position: "relative",
-            }}
-          >
-            <View
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: 10,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "black",
-                  fontWeight: "bold",
-                }}
-              >
-                Education
-              </Text>
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "black",
-                  fontWeight: "bold",
-                }}
-              >
-                USD : 10
-              </Text>
-            </View>
-            <View
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "black" }}>
-                Past Expenses
-              </Text>
-              <Text style={{ fontSize: 12, color: "black", marginLeft: 10 }}>
-                2023-07-22
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "black",
-                padding: 5,
-                position: "absolute",
-                right: 0,
-                bottom: 0,
-              }}
-            >
-              <Icons.MinusCircleIcon size="20" color="white" />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              padding: 15,
-              backgroundColor: "skyblue",
-              marginVertical: 5,
-              position: "relative",
-            }}
-          >
-            <View
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: 10,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "black",
-                  fontWeight: "bold",
-                }}
-              >
-                Health
-              </Text>
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "black",
-                  fontWeight: "bold",
-                }}
-              >
-                USD : 50
-              </Text>
-            </View>
-            <View
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "black" }}>
-                Future Expense
-              </Text>
-              <Text style={{ fontSize: 12, color: "black", marginLeft: 10 }}>
-                2023-07-26
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "black",
-                padding: 5,
-                position: "absolute",
-                right: 0,
-                bottom: 0,
-              }}
-            >
-              <Icons.MinusCircleIcon size="20" color="white" />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              padding: 15,
-              backgroundColor: "skyblue",
-              marginVertical: 5,
-              position: "relative",
-            }}
-          >
-            <View
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: 10,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "black",
-                  fontWeight: "bold",
-                }}
-              >
-                Sales
-              </Text>
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "black",
-                  fontWeight: "bold",
-                }}
-              >
-                USD : 120
-              </Text>
-            </View>
-            <View
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "black" }}>
-                Future Income
-              </Text>
-              <Text style={{ fontSize: 12, color: "black", marginLeft: 10 }}>
-                2023-07-30
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "black",
-                padding: 5,
-                position: "absolute",
-                right: 0,
-                bottom: 0,
-              }}
-            >
-              <Icons.MinusCircleIcon size="20" color="white" />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              padding: 15,
-              backgroundColor: "skyblue",
-              marginVertical: 5,
-              position: "relative",
-            }}
-          >
-            <View
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: 10,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "black",
-                  fontWeight: "bold",
-                }}
-              >
-                Commissions
-              </Text>
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "black",
-                  fontWeight: "bold",
-                }}
-              >
-                USD : 40
-              </Text>
-            </View>
-            <View
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "black" }}>Past Income</Text>
-              <Text style={{ fontSize: 12, color: "black", marginLeft: 10 }}>
-                2023-07-20
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "black",
-                padding: 5,
-                position: "absolute",
-                right: 0,
-                bottom: 0,
-              }}
-            >
-              <Icons.MinusCircleIcon size="20" color="white" />
-            </TouchableOpacity>
-          </View>
+          {finances.length > 0 ? (
+            finances.map((item) => (
+              <FinanceCard
+                financeName={item.financeName}
+                financeType={item.financeType}
+                financeAmount={item.financeAmount}
+                processedDate={item.processedDate}
+                key={item.financeId}
+              />
+            ))
+          ) : (
+            <Text>No Finances Available!</Text>
+          )}
         </ScrollView>
       </View>
     </SafeAreaView>
