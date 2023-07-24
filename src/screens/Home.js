@@ -29,20 +29,24 @@ export default function Home({ navigation }) {
 
   const [filteredFinances, setFilteredFinances] = useState([]);
 
+  // Fetch finances
   useEffect(() => {
     handleFinancesFetch();
   }, []);
 
+  // Filter finances
   useEffect(() => {
     handleFilterFinances();
   }, [searchQuery, finances]);
 
+  // Fetch finances on focus
   useEffect(() => {
     if (isFocused) {
       handleFinancesFetch();
     }
   }, [isFocused]);
 
+  // Function to handle fetch finances
   const handleFinancesFetch = async () => {
     try {
       const availableData = await AsyncStorage.getItem("finances");
@@ -54,6 +58,7 @@ export default function Home({ navigation }) {
     }
   };
 
+  // Function to handle filter finances
   const handleFilterFinances = () => {
     const lowerCaseQuery = searchQuery.toLowerCase();
     const filtered = finances.filter(
@@ -62,6 +67,18 @@ export default function Home({ navigation }) {
         finance.financeType.toLowerCase().includes(lowerCaseQuery)
     );
     setFilteredFinances(filtered);
+  };
+
+  // Function to get total of finances
+  const getTotalFinances = () => {
+    return filteredFinances.reduce(
+      (total, finance) =>
+        finance.financeType === "Past Expense" ||
+        finance.financeType === "Future Expense"
+          ? total - finance.financeAmount
+          : total + finance.financeAmount,
+      0
+    );
   };
 
   return (
@@ -129,7 +146,7 @@ export default function Home({ navigation }) {
         >
           <Icons.CurrencyDollarIcon size="50" color="white" />
           <Text style={{ color: "white", fontSize: 18, marginLeft: 10 }}>
-            All Finance
+            Finance
           </Text>
           <Text
             style={{
@@ -141,7 +158,7 @@ export default function Home({ navigation }) {
               borderRadius: 8,
             }}
           >
-            USD : 100
+            USD : {getTotalFinances()}
           </Text>
         </View>
         <ScrollView
