@@ -9,6 +9,7 @@ import {
   StatusBar,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 
 // ---------Third-party components & modules---------
@@ -36,7 +37,7 @@ export default function Home({ navigation }) {
 
   // Filter finances
   useEffect(() => {
-    handleFilterFinances();
+    handleFinancesFilter();
   }, [searchQuery, finances]);
 
   // Fetch finances on focus
@@ -59,7 +60,7 @@ export default function Home({ navigation }) {
   };
 
   // Function to handle filter finances
-  const handleFilterFinances = () => {
+  const handleFinancesFilter = () => {
     const lowerCaseQuery = searchQuery.toLowerCase();
     const filtered = finances.filter(
       (finance) =>
@@ -67,6 +68,34 @@ export default function Home({ navigation }) {
         finance.financeType.toLowerCase().includes(lowerCaseQuery)
     );
     setFilteredFinances(filtered);
+  };
+
+  // Function to handle delete finance
+  const handleFinanceDelete = async (id) => {
+    console.log(id);
+    try {
+      const updatedFinances = finances.filter(
+        (finance) => finance.financeId !== id
+      );
+      await AsyncStorage.setItem("finances", JSON.stringify(updatedFinances));
+      setFilteredFinances(updatedFinances);
+      setFinances(updatedFinances);
+    } catch (error) {
+      console.error("Error deleting finance", error);
+    }
+  };
+
+  // Function to confirm delete
+  const confirmDelete = (id) => {
+    Alert.alert(
+      "Delete Finance",
+      "Are you sure you want to delete this finance?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Delete", onPress: () => handleFinanceDelete(id) },
+      ],
+      { cancelable: true }
+    );
   };
 
   // Function to get total of finances
@@ -168,15 +197,19 @@ export default function Home({ navigation }) {
           {filteredFinances.length > 0 ? (
             filteredFinances.map((item) => (
               <FinanceCard
+                financeId={item.financeId}
                 financeName={item.financeName}
                 financeType={item.financeType}
                 financeAmount={item.financeAmount}
                 processedDate={item.processedDate}
+                deleteFunc={(id) => confirmDelete(id)}
                 key={item.financeId}
               />
             ))
           ) : (
-            <Text>No Finances Available!</Text>
+            <Text style={{ textAlign: "center", marginTop: 10 }}>
+              No Finances Available!
+            </Text>
           )}
         </ScrollView>
       </View>

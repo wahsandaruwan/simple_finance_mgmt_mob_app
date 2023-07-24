@@ -5,10 +5,12 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
 
 export default function FinanceCard({
+  financeId,
   financeName,
   financeType,
   financeAmount,
   processedDate,
+  deleteFunc,
 }) {
   return (
     <View
@@ -68,6 +70,7 @@ export default function FinanceCard({
           right: 0,
           bottom: 0,
         }}
+        onPress={() => deleteFunc(financeId)}
       >
         <Icons.MinusCircleIcon size="20" color="white" />
       </TouchableOpacity>
