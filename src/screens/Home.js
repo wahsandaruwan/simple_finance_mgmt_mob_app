@@ -24,11 +24,18 @@ export default function Home({ navigation }) {
   const isFocused = useIsFocused();
 
   const [finances, setFinances] = useState([]);
-  console.log(finances);
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [filteredFinances, setFilteredFinances] = useState([]);
 
   useEffect(() => {
     handleFinancesFetch();
   }, []);
+
+  useEffect(() => {
+    handleFilterFinances();
+  }, [searchQuery, finances]);
 
   useEffect(() => {
     if (isFocused) {
@@ -45,6 +52,16 @@ export default function Home({ navigation }) {
     } catch (error) {
       console.error("Error fetching finances", error);
     }
+  };
+
+  const handleFilterFinances = () => {
+    const lowerCaseQuery = searchQuery.toLowerCase();
+    const filtered = finances.filter(
+      (finance) =>
+        finance.financeName.toLowerCase().includes(lowerCaseQuery) ||
+        finance.financeType.toLowerCase().includes(lowerCaseQuery)
+    );
+    setFilteredFinances(filtered);
   };
 
   return (
@@ -78,6 +95,7 @@ export default function Home({ navigation }) {
               backgroundColor: "skyblue",
               color: "black",
             }}
+            onChangeText={(txt) => setSearchQuery(txt)}
           />
           <TouchableOpacity
             style={{
@@ -130,8 +148,8 @@ export default function Home({ navigation }) {
           showsVerticalScrollIndicator={false}
           style={{ width: "100%", backgroundColor: "white" }}
         >
-          {finances.length > 0 ? (
-            finances.map((item) => (
+          {filteredFinances.length > 0 ? (
+            filteredFinances.map((item) => (
               <FinanceCard
                 financeName={item.financeName}
                 financeType={item.financeType}
